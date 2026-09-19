@@ -13,17 +13,24 @@ async function handler(req) {
   const exam = getExamById(examId);
   if (!exam || exam.type !== "listening") return jsonError("Unknown listening exam.", 404);
 
-  const questions = exam.questionsList ?? [];
+  // Safely extract questions whether they are structured in sections or a flat list
+  let questions = [];
+  if (Array.isArray(exam.sections)) {
+    questions = exam.sections.flatMap((s) => s.questions ?? []);
+  } else {
+    questions = exam.questionsList ?? [];
+  }
+
   let correct = 0;
   const detail = questions.map((q) => {
     const userAnswer = answers[q.id] ?? "";
-    const isCorrect = normaliseAnswer(userAnswer) === normaliseAnswer(q.answer);
+    const isCorrect = checkAnswer(userAnswer, q.answer);
     if (isCorrect) correct += 1;
     return {
       id: q.id,
       question: q.text,
       userAnswer: String(userAnswer),
-      correctAnswer: q.answer,
+      correctAnswer: Array.isArray(q.answer) ? q.answer.join(" / ") : q.answer,
       isCorrect,
       explanation: q.explanation ?? "",
     };
@@ -32,7 +39,6 @@ async function handler(req) {
   const bandScore = bandFromRaw(correct, questions.length || 1);
   const feedback = JSON.stringify({ correct, total: questions.length, bandScore });
 
-  // One batched transaction (insert + stats upsert); guests get scores without saving.
   const stats = await persistAttempt({
     examType: "listening",
     examId,
@@ -44,6 +50,15 @@ async function handler(req) {
   });
 
   return jsonOk({ correct, total: questions.length, bandScore, detail, stats });
+}
+
+function checkAnswer(userAnswer, correctAnswer) {
+  const user = normaliseAnswer(userAnswer);
+  if (!user) return false;
+  if (Array.isArray(correctAnswer)) {
+    return correctAnswer.some((a) => normaliseAnswer(a) === user);
+  }
+  return normaliseAnswer(correctAnswer) === user;
 }
 
 export const POST = withApiGuard(handler, "score-listening");

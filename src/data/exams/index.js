@@ -4,7 +4,7 @@ import readingTest3 from "./reading/reading-test-3";
 import readingTest4 from "./reading/reading-test-4";
 import readingTest5 from "./reading/reading-test-5"; 
 import readingTest6 from "./reading/reading-test-6";
-
+import listeningTest1 from "./listening/listening-test-1";
 // Future imports:
 // import writingTest1 from "./writing/writing-test-1";
 // import listeningTest1 from "./listening/listening-test-1";
@@ -17,6 +17,7 @@ export const allExams = [
   readingTest4,
   readingTest5, 
   readingTest6,
+  listeningTest1, 
 ];
 
 export function getExamById(id) {
