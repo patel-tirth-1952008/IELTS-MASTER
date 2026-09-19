@@ -1,0 +1,235 @@
+// IELTS Master — Prisma 5 schema (PostgreSQL on Neon.tech)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  password          String
+  name              String?
+  avatar            String?
+  role              String    @default("user")
+  targetBand        Float?    @default(7.5)
+  examDate          DateTime?
+  // ── Security ──────────────────────────────────────────────
+  emailVerified     Boolean   @default(false)
+  twoFactorEnabled  Boolean   @default(false)
+  // Bumped on password change / logout-everywhere → kills old JWTs.
+  tokenVersion      Int       @default(0)
+  failedLoginCount  Int       @default(0)
+  lockedUntil       DateTime?
+  passwordChangedAt DateTime?
+  lastLoginAt       DateTime?
+  lastLoginIp       String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  submissions   Submission[]
+  studyPlan     StudyPlan?
+  stats         UserStats?
+  achievements  Achievement[]
+  bookmarks     Bookmark[]
+  mistakes      MistakeBank[]
+  notifications Notification[]
+  verifications EmailVerification[]
+  resets        PasswordReset[]
+  challenges    AuthChallenge[]
+  events        AnalyticsEvent[]
+  attempts      LoginAttempt[]
+
+  @@index([role])
+  @@index([emailVerified])
+}
+
+model UserStats {
+  id           String @id @default(cuid())
+  userId       String @unique
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  totalTests   Int    @default(0)
+  readingAvg   Float  @default(0)
+  writingAvg   Float  @default(0)
+  listeningAvg Float  @default(0)
+  speakingAvg  Float  @default(0)
+  averageBand  Float  @default(0)
+  studyStreak  Int    @default(0)
+}
+
+model Submission {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  examType  String
+  examId    String?
+  score     Float?
+  bandScore Float?
+  feedback  String?
+  answers   Json?
+  timeTaken Int?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([userId, examType])
+}
+
+model StudyPlan {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan       Json
+  currentDay Int      @default(1)
+  completed  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  icon        String
+  unlockedAt  DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  examId    String
+  examType  String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, examId])
+  @@index([userId, createdAt])
+}
+
+model MistakeBank {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questionId    String
+  examType      String
+  correctAnswer String
+  userAnswer    String
+  explanation   String?
+  createdAt     DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId, read])
+}
+
+// ── Auth hardening ──────────────────────────────────────────
+// One-time codes are stored HASHED (SHA-256) with expiry + attempt caps,
+// so a database leak never exposes a usable reset/verification code.
+model EmailVerification {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  codeHash   String
+  expiresAt  DateTime
+  attempts   Int       @default(0)
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model PasswordReset {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash  String
+  expiresAt  DateTime
+  attempts   Int       @default(0)
+  consumedAt DateTime?
+  ip         String?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId, createdAt])
+  @@index([tokenHash])
+}
+
+// Second factor (2FA) and step-up challenges.
+model AuthChallenge {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       String    @default("2fa")
+  codeHash   String
+  expiresAt  DateTime
+  attempts   Int       @default(0)
+  consumedAt DateTime?
+  ip         String?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId, type])
+}
+
+// Audit trail for every credential attempt (success and failure).
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  email     String
+  ip        String?
+  success   Boolean
+  reason    String?
+  createdAt DateTime @default(now())
+
+  @@index([email, createdAt])
+  @@index([ip, createdAt])
+}
+
+// ── First-party, privacy-friendly analytics ─────────────────
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  type      String // pageview | vital | event
+  path      String?
+  name      String? // metric or event name
+  value     Float?
+  referrer  String?
+  sessionId String?
+  device    String?
+  country   String?
+  createdAt DateTime @default(now())
+
+  @@index([type, createdAt])
+  @@index([path, createdAt])
+  @@index([sessionId])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  status    String   @default("new")
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([status])
+}

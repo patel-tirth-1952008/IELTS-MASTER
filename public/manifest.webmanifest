@@ -1,0 +1,23 @@
+{
+  "name": "IELTS Master — Free AI-Powered IELTS Preparation",
+  "short_name": "IELTS Master",
+  "description": "Free IELTS reading, writing, listening and speaking practice with instant AI band scores.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FCF9F2",
+  "theme_color": "#F59E0B",
+  "orientation": "portrait-primary",
+  "categories": ["education", "productivity"],
+  "lang": "en",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/apple-icon.svg", "sizes": "180x180", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Reading practice", "url": "/reading" },
+    { "name": "Writing task 2", "url": "/writing" },
+    { "name": "Mock test", "url": "/mock-test" },
+    { "name": "My progress", "url": "/dashboard" }
+  ]
+}

@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── IELTS Master · Classic Warm Academic ─────────────────── */
+:root {
+  --cream: #fcf9f2;
+  --card-border: #ebe3d5;
+  --amber: #f59e0b;
+  --amber-deep: #d97706;
+  --sky: #0284c7;
+
+  /* One type scale for the whole product — no ad-hoc font sizes. */
+  --step--1: 0.8125rem; /* 13px · meta */
+  --step-0: 0.9375rem;  /* 15px · body */
+  --step-1: 1.125rem;   /* 18px · h3 */
+  --step-2: 1.375rem;   /* 22px · h2 */
+  --step-3: 1.875rem;   /* 30px · h1 */
+  --step-4: 2.5rem;     /* 40px · hero */
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 5rem; /* sticky navbar offset for #anchors */
+}
+
+body {
+  background-color: var(--cream);
+  color: #1e293b;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Consistent focus ring everywhere (keyboard users first). */
+:focus-visible {
+  outline: 2px solid var(--amber-deep);
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+::selection {
+  background: #fde68a;
+  color: #0f172a;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@layer components {
+  /* ── Surfaces ───────────────────────────────────────────── */
+  .warm-card {
+    @apply rounded-2xl border border-[#EBE3D5] bg-white shadow-warm;
+  }
+  .warm-card-hover {
+    @apply rounded-2xl border border-[#EBE3D5] bg-white shadow-warm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-warm-lg;
+  }
+
+  /* ── Buttons ────────────────────────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[#F59E0B] px-5 py-2.5 font-bold text-slate-950 transition-colors hover:bg-[#D97706] disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-[#EBE3D5] bg-white px-5 py-2.5 font-semibold text-slate-800 transition-colors hover:border-[#D97706] hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 font-semibold text-slate-600 transition-colors hover:bg-white hover:text-slate-900;
+  }
+
+  /* ── Inputs ─────────────────────────────────────────────── */
+  .warm-input {
+    @apply w-full rounded-xl border border-[#EBE3D5] bg-white px-4 py-2.5 text-slate-800 placeholder-slate-400 outline-none transition focus:border-amber-400 focus:ring-2 focus:ring-amber-400/30;
+  }
+  .warm-label {
+    @apply mb-1.5 block text-sm font-semibold text-slate-700;
+  }
+
+  /* ── Badges ─────────────────────────────────────────────── */
+  .badge-yellow {
+    @apply inline-flex items-center gap-1 rounded-full border border-[#FDE68A] bg-[#FEF3C7] px-2.5 py-0.5 text-xs font-semibold text-[#B45309];
+  }
+  .badge-blue {
+    @apply inline-flex items-center gap-1 rounded-full border border-[#BAE6FD] bg-[#E0F2FE] px-2.5 py-0.5 text-xs font-semibold text-[#0369A1];
+  }
+  .badge-green {
+    @apply inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700;
+  }
+
+  .page-wrap {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* ── Typography scale ───────────────────────────────────── */
+  /* Every heading/paragraph in the app uses these six classes so the
+     rhythm never drifts page to page. */
+  .type-hero {
+    @apply text-[clamp(2rem,5vw,2.75rem)] font-black leading-[1.08] tracking-tight text-slate-900;
+    text-wrap: balance;
+  }
+  .type-h1 {
+    @apply text-[clamp(1.6rem,3.4vw,2rem)] font-black leading-tight tracking-tight text-slate-900;
+    text-wrap: balance;
+  }
+  .type-h2 {
+    @apply text-[1.375rem] font-extrabold leading-snug tracking-tight text-slate-900;
+  }
+  .type-h3 {
+    @apply text-[1.0625rem] font-extrabold leading-snug tracking-tight text-slate-900;
+  }
+  .type-lead {
+    @apply text-[1.0625rem] leading-relaxed text-slate-600;
+  }
+  .type-body {
+    @apply text-[0.9375rem] leading-relaxed text-slate-700;
+  }
+  .type-meta {
+    @apply text-[0.8125rem] font-medium leading-relaxed text-slate-500;
+  }
+  .type-eyebrow {
+    @apply text-[0.75rem] font-bold uppercase tracking-[0.14em];
+  }
+  .type-score {
+    @apply font-black tabular-nums tracking-tight text-slate-900;
+  }
+
+  /* ── Responsive horizontal scroller (mobile chip rows, tables) ── */
+  .scroll-x {
+    @apply flex snap-x snap-mandatory gap-2 overflow-x-auto pb-2;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .scroll-x > * {
+    @apply snap-start;
+  }
+}
+
+/* Hide scrollbars on decorative horizontal rows without losing scrollability. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Skeleton shimmer for loading states */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #f1ead9 25%, #faf5e9 50%, #f1ead9 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+/* Optimistic-UI states: a pending element dims instead of the whole page
+   unmounting and re-mounting (that's what makes an app "blink"). */
+.is-pending {
+  opacity: 0.55;
+  transition: opacity 120ms ease-out;
+}
+@keyframes pop-in {
+  from { transform: scale(0.96); opacity: 0.4; }
+  to { transform: scale(1); opacity: 1; }
+}
+.pop-in {
+  animation: pop-in 160ms ease-out;
+}
+
+/* Defer rendering of long below-the-fold blocks (footer, FAQ) until they
+   approach the viewport — cuts first-paint work on content-heavy pages. */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+/* Print: tests and results should print cleanly for offline review. */
+@media print {
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+}
