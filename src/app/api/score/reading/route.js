@@ -19,14 +19,14 @@ async function handler(req) {
   let correct = 0;
   const detail = allQuestions.map((q) => {
     const userAnswer = answers[q.id] ?? "";
-    const isCorrect = normaliseAnswer(userAnswer) === normaliseAnswer(q.answer);
+    const isCorrect = checkAnswer(userAnswer, q.answer);
     if (isCorrect) correct += 1;
     return {
       id: q.id,
       passage: q.passage,
       question: q.text,
       userAnswer: String(userAnswer),
-      correctAnswer: q.answer,
+      correctAnswer: Array.isArray(q.answer) ? q.answer.join(" / ") : q.answer,
       isCorrect,
       explanation: q.explanation ?? "",
     };
@@ -35,7 +35,6 @@ async function handler(req) {
   const bandScore = bandFromRaw(correct, allQuestions.length || 1);
   const feedback = JSON.stringify({ correct, total: allQuestions.length, bandScore });
 
-  // One batched transaction (insert + stats upsert); guests get scores without saving.
   const stats = await persistAttempt({
     examType: "reading",
     examId,
@@ -47,6 +46,20 @@ async function handler(req) {
   });
 
   return jsonOk({ correct, total: allQuestions.length, bandScore, detail, stats });
+}
+
+/**
+ * Accepts either a single string answer OR an array of acceptable answers
+ * (e.g. ["cost", "time"] where any single match counts as correct).
+ * This lets test authors provide synonyms without changing scoring logic.
+ */
+function checkAnswer(userAnswer, correctAnswer) {
+  const user = normaliseAnswer(userAnswer);
+  if (!user) return false;
+  if (Array.isArray(correctAnswer)) {
+    return correctAnswer.some((a) => normaliseAnswer(a) === user);
+  }
+  return normaliseAnswer(correctAnswer) === user;
 }
 
 export const POST = withApiGuard(handler, "score-reading");

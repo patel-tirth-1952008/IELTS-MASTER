@@ -38,7 +38,7 @@ export default function PracticeReadingPage() {
   return (
     <div className="min-h-screen bg-[#FCF9F2]">
       <Navbar />
-      <main id="main" className="page-wrap max-w-4xl py-10">
+      <main id="main" className="page-wrap max-w-5xl py-10">
         <Suspense fallback={<div className="skeleton h-96 rounded-2xl" />}>
           <Runner />
         </Suspense>

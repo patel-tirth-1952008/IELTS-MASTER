@@ -37,15 +37,12 @@ export default function ReadingTest({ exam }) {
     setSubmitting(true);
     setError("");
     try {
-      // apiPost attaches the CSRF header and normalises API errors.
       const data = await apiPost("/api/score/reading", {
         examId: exam.id,
         answers,
         timeTaken: Math.round((Date.now() - startedAt) / 1000),
       });
       setResult(data);
-      // Optimistic dashboard: push the fresh stats straight into the
-      // session context so /dashboard is already correct — no refetch.
       if (data.stats) applyStats(data.stats);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (e) {
@@ -105,37 +102,51 @@ export default function ReadingTest({ exam }) {
       {(exam.passages ?? []).map((p) => (
         <section key={p.id} className="warm-card p-6">
           <h2 className="type-h3">{p.title}</h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-600">{p.text}</p>
-          <div className="mt-5 space-y-4">
-            {(p.questions ?? []).map((q) => (
-              <div key={q.id} className="rounded-xl border border-[#EBE3D5] bg-[#FCF9F2] p-4">
-                <p className="text-sm font-semibold text-slate-800">{q.text}</p>
-                {q.kind === "gap" ? (
-                  <input
-                    className="warm-input mt-2 max-w-xs"
-                    placeholder="Type your answer"
-                    value={answers[q.id] ?? ""}
-                    onChange={(e) => setAnswer(q.id, e.target.value)}
-                  />
-                ) : (
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {(q.options ?? []).map((opt) => (
-                      <button
-                        key={opt}
-                        type="button"
-                        onClick={() => setAnswer(q.id, opt)}
-                        className={`rounded-xl border px-4 py-2 text-sm font-semibold transition-colors ${
-                          answers[q.id] === opt
-                            ? "border-[#D97706] bg-[#F59E0B] text-slate-950"
-                            : "border-[#EBE3D5] bg-white text-slate-700 hover:border-[#D97706]"
-                        }`}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                )}
+
+          {/* Paragraph-labeled passages (A, B, C...) — render with visible letters */}
+          {Array.isArray(p.paragraphs) ? (
+            <div className="mt-2 space-y-3 text-sm leading-relaxed text-slate-600">
+              {p.paragraphs.map((para) => (
+                <p key={para.label}>
+                  <span className="mr-2 inline-block rounded-md bg-[#F59E0B] px-2 py-0.5 text-xs font-black text-slate-950">
+                    {para.label}
+                  </span>
+                  {para.text}
+                </p>
+              ))}
+            </div>
+          ) : (
+            <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-slate-600">{p.text}</p>
+          )}
+
+          {/* Shared word bank shown ONCE at top of a question group, if provided */}
+          {p.wordBank && (
+            <div className="mt-4 rounded-xl border border-[#EBE3D5] bg-white p-4">
+              <p className="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">Word bank</p>
+              <div className="flex flex-wrap gap-2">
+                {p.wordBank.map((w) => (
+                  <span
+                    key={w.label}
+                    className="rounded-md border border-[#EBE3D5] bg-[#FCF9F2] px-3 py-1 text-sm font-semibold text-slate-800"
+                  >
+                    <span className="mr-1 font-black text-[#D97706]">{w.label}.</span>
+                    {w.text}
+                  </span>
+                ))}
               </div>
+            </div>
+          )}
+
+          <div className="mt-5 space-y-4">
+            {(p.questions ?? []).map((q, idx) => (
+              <QuestionInput
+                key={q.id}
+                q={q}
+                index={idx}
+                value={answers[q.id]}
+                onChange={(v) => setAnswer(q.id, v)}
+                wordBank={p.wordBank}
+              />
             ))}
           </div>
         </section>
@@ -147,6 +158,115 @@ export default function ReadingTest({ exam }) {
         {submitting ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} strokeWidth={1.75} />}
         {submitting ? "Scoring…" : "Submit answers"}
       </button>
+    </div>
+  );
+}
+
+/**
+ * Renders a single question — dispatches to the right UI based on `kind`.
+ * Supported kinds: tfng, mcq, gap, flowchart, sentence-completion,
+ * short-answer, paragraph-match, summary-wordbank, person-match
+ */
+function QuestionInput({ q, value, onChange, wordBank }) {
+  const kind = q.kind ?? "gap";
+
+  // Word-bank powered questions render as a dropdown of A/B/C... options
+  if (kind === "summary-wordbank") {
+    const options = wordBank ?? q.options ?? [];
+    return (
+      <div className="rounded-xl border border-[#EBE3D5] bg-[#FCF9F2] p-4">
+        <p className="text-sm font-semibold text-slate-800">{q.text}</p>
+        <select
+          className="warm-input mt-2 max-w-xs"
+          value={value ?? ""}
+          onChange={(e) => onChange(e.target.value)}
+        >
+          <option value="">-- choose --</option>
+          {options.map((opt) => {
+            const label = typeof opt === "string" ? opt : opt.label;
+            const text = typeof opt === "string" ? opt : `${opt.label}. ${opt.text}`;
+            return (
+              <option key={label} value={label}>
+                {text}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+
+  // Paragraph matching: dropdown A-H (or whatever letters passage provided)
+  if (kind === "paragraph-match" || kind === "person-match") {
+    const options = q.options ?? [];
+    return (
+      <div className="rounded-xl border border-[#EBE3D5] bg-[#FCF9F2] p-4">
+        <p className="text-sm font-semibold text-slate-800">{q.text}</p>
+        <select
+          className="warm-input mt-2 max-w-xs"
+          value={value ?? ""}
+          onChange={(e) => onChange(e.target.value)}
+        >
+          <option value="">-- choose --</option>
+          {options.map((opt) => {
+            const label = typeof opt === "string" ? opt : opt.label;
+            const text = typeof opt === "string" ? opt : `${opt.label} — ${opt.text}`;
+            return (
+              <option key={label} value={label}>
+                {text}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+
+  // Flowchart / sentence-completion / short-answer / gap — all text inputs
+  if (
+    kind === "gap" ||
+    kind === "flowchart" ||
+    kind === "sentence-completion" ||
+    kind === "short-answer"
+  ) {
+    return (
+      <div className="rounded-xl border border-[#EBE3D5] bg-[#FCF9F2] p-4">
+        <p className="text-sm font-semibold text-slate-800">{q.text}</p>
+        {q.hint && <p className="mt-1 text-xs text-slate-500">{q.hint}</p>}
+        <input
+          className="warm-input mt-2 max-w-md"
+          placeholder="Type your answer"
+          value={value ?? ""}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      </div>
+    );
+  }
+
+  // Default: tfng, mcq — button group
+  return (
+    <div className="rounded-xl border border-[#EBE3D5] bg-[#FCF9F2] p-4">
+      <p className="text-sm font-semibold text-slate-800">{q.text}</p>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {(q.options ?? []).map((opt) => {
+          const label = typeof opt === "string" ? opt : opt.label;
+          const display = typeof opt === "string" ? opt : `${opt.label}. ${opt.text}`;
+          return (
+            <button
+              key={label}
+              type="button"
+              onClick={() => onChange(label)}
+              className={`rounded-xl border px-4 py-2 text-sm font-semibold transition-colors ${
+                value === label
+                  ? "border-[#D97706] bg-[#F59E0B] text-slate-950"
+                  : "border-[#EBE3D5] bg-white text-slate-700 hover:border-[#D97706]"
+              }`}
+            >
+              {display}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
