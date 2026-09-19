@@ -66,25 +66,7 @@ export const sampleExams = [
       "The chart below shows the percentage of households in three countries that owned a computer from 2000 to 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.",
     minWords: 150,
   },
-  {
-    id: "listening-test-1",
-    type: "listening",
-    title: "Listening — Test 1 (Demo Transcript)",
-    description: "2 sections · 10 questions · 20 minutes. Read-while-you-listen demo format.",
-    durationMin: 20,
-    questions: 10,
-    difficulty: "Easy",
-    audioNote: "Demo mode: read the transcript below, then answer. Full audio arrives with the hosted question bank.",
-    transcript:
-      "SECTION 1. WOMAN: Good morning, Riverside Sports Centre, how can I help? MAN: Hi, I'd like to join the gym, please. WOMAN: Of course. Membership is £35 a month, or £350 for the year. MAN: I'll take the yearly one. And what time does the pool open? WOMAN: The pool opens at 6:30 every morning, and closes at 9 in the evening. MAN: Great. Is there a student discount? WOMAN: Yes — 10% off with a valid student card.",
-    questionsList: [
-      { id: "l1q1", text: "Monthly membership costs £___. (number)", answer: "35", explanation: "£35 a month." },
-      { id: "l1q2", text: "Yearly membership costs £___. (number)", answer: "350", explanation: "£350 for the year." },
-      { id: "l1q3", text: "The pool opens at ___. (e.g. 6:30)", answer: "6:30", explanation: "Opens at 6:30 every morning." },
-      { id: "l1q4", text: "The pool closes at ___ in the evening. (number)", answer: "9", explanation: "Closes at 9." },
-      { id: "l1q5", text: "Student discount is ___%. (number)", answer: "10", explanation: "10% off with a student card." },
-    ],
-  },
+  // OLD listening-test-1 demo REMOVED — replaced by full 40-question test in allExams
   {
     id: "speaking-part-1-1",
     type: "speaking",
