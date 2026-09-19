@@ -1,0 +1,108 @@
+export default {
+  id: "reading-full-3",
+  type: "reading",
+  title: "Academic Reading — Test 3",
+  description: "3 passages · 40 questions · 60 minutes. TFNG, MCQ, gap-fill, summary completion.",
+  durationMin: 60,
+  questions: 40,
+  difficulty: "Hard",
+  passages: [
+    {
+      id: "r3p1",
+      title: "The Psychology of Colour",
+      text: `Colour is one of the most powerful yet least understood forces in human psychology. From the red of a stop sign to the blue of a corporate logo, colour influences our emotions, decisions, and behaviours in ways that operate largely below the level of conscious awareness. The study of colour psychology, while still a relatively young field, has produced findings that are reshaping industries from marketing to healthcare.
+
+The physiological basis of colour perception begins in the retina, where specialised cells called cones detect different wavelengths of light. Humans typically possess three types of cones, sensitive to red, green, and blue wavelengths. The brain then processes these signals to construct the rich spectrum of colours we experience. Interestingly, approximately 8% of men and 0.5% of women have some form of colour vision deficiency, most commonly difficulty distinguishing between red and green.
+
+Research has consistently demonstrated that colour can affect physiological responses. A study conducted at the University of Leeds found that exposure to red light increased participants' heart rates and blood pressure, while blue light produced a measurable calming effect. These findings align with evolutionary theories suggesting that humans developed heightened arousal responses to red because it signals danger, blood, and ripe fruit in the natural environment.
+
+In the commercial world, colour is a critical branding tool. A 2006 study by the University of Winnipeg found that people make a subconscious judgement about a product within 90 seconds of initial viewing, and between 62% and 90% of that assessment is based on colour alone. This explains why fast-food chains overwhelmingly use red and yellow in their logos — colours that stimulate appetite and create a sense of urgency — while technology companies prefer blue, which conveys trust, stability, and intelligence.
+
+Cultural context plays a crucial role in colour perception. While white is associated with purity and weddings in Western cultures, it is the colour of mourning and funerals in many East Asian societies. Similarly, red symbolises luck and prosperity in China but can represent danger or debt in Western financial contexts. Marketers operating in global markets must therefore be acutely aware that colour associations are not universal.
+
+In healthcare settings, colour is increasingly being used as a therapeutic tool. Hospitals in Scandinavia have pioneered the use of soft green and blue tones in patient rooms, which studies have shown can reduce anxiety and lower the perceived intensity of pain. Conversely, bright fluorescent lighting and stark white walls — once considered the standard for clinical environments — have been found to increase stress levels and slow recovery times.
+
+Despite these compelling findings, colour psychology remains a controversial field. Critics argue that many studies suffer from small sample sizes, inconsistent methodologies, and a failure to control for cultural and individual differences. The psychologist Andrew Elliot has cautioned against overgeneralising, noting that the effect of any single colour depends on a complex interplay of context, personal experience, and cultural background.`,
+      questions: [
+        { id: "r3q1", kind: "tfng", text: "Colour influences human behaviour primarily through conscious decision-making.", answer: "False", options: ["True", "False", "Not Given"], explanation: "Colour influences behaviour largely below the level of conscious awareness." },
+        { id: "r3q2", kind: "gap", text: "Humans typically possess ___ types of cone cells in the retina.", answer: "three", explanation: "Humans possess three types of cones sensitive to red, green, and blue." },
+        { id: "r3q3", kind: "mcq", text: "What percentage of men have some form of colour vision deficiency?", answer: "8%", options: ["2%", "5%", "8%", "12%"], explanation: "Approximately 8% of men have colour vision deficiency." },
+        { id: "r3q4", kind: "tfng", text: "The University of Leeds study found that blue light increased heart rates.", answer: "False", options: ["True", "False", "Not Given"], explanation: "Red light increased heart rates; blue light produced a calming effect." },
+        { id: "r3q5", kind: "gap", text: "People make a subconscious judgement about a product within ___ seconds of viewing it.", answer: "90", explanation: "Judgements are made within 90 seconds of initial viewing." },
+        { id: "r3q6", kind: "mcq", text: "What percentage of a product assessment is based on colour alone?", answer: "62% to 90%", options: ["30% to 50%", "50% to 70%", "62% to 90%", "80% to 100%"], explanation: "Between 62% and 90% of assessment is based on colour." },
+        { id: "r3q7", kind: "tfng", text: "Fast-food chains typically use blue and green in their logos.", answer: "False", options: ["True", "False", "Not Given"], explanation: "Fast-food chains overwhelmingly use red and yellow." },
+        { id: "r3q8", kind: "tfng", text: "In China, red is associated with mourning and funerals.", answer: "False", options: ["True", "False", "Not Given"], explanation: "In China, red symbolises luck and prosperity." },
+        { id: "r3q9", kind: "gap", text: "In many East Asian societies, the colour of mourning is ___.", answer: "white", explanation: "White is the colour of mourning in many East Asian societies." },
+        { id: "r3q10", kind: "mcq", text: "Which region's hospitals have pioneered the use of green and blue tones in patient rooms?", answer: "Scandinavia", options: ["North America", "Scandinavia", "Southeast Asia", "Australia"], explanation: "Hospitals in Scandinavia have pioneered this approach." },
+        { id: "r3q11", kind: "tfng", text: "Bright fluorescent lighting in hospitals has been shown to speed up recovery.", answer: "False", options: ["True", "False", "Not Given"], explanation: "Fluorescent lighting increases stress and slows recovery." },
+        { id: "r3q12", kind: "mcq", text: "What is Andrew Elliot's main criticism of colour psychology?", answer: "Results are overgeneralised without considering context", options: ["The field is too new", "Colour has no psychological effect", "Results are overgeneralised without considering context", "Only artists should study colour"], explanation: "Elliot cautioned against overgeneralising without considering context and culture." },
+        { id: "r3q13", kind: "gap", text: "The University of Winnipeg colour study was published in the year ___.", answer: "2006", explanation: "The study was published in 2006." }
+      ]
+    },
+    {
+      id: "r3p2",
+      title: "The Challenge of Renewable Energy Storage",
+      text: `The transition from fossil fuels to renewable energy sources is widely regarded as essential to combating climate change. Solar and wind power are now the cheapest forms of new electricity generation in most parts of the world. However, both sources share a fundamental limitation: they are intermittent. The sun does not always shine, and the wind does not always blow. Without effective energy storage solutions, the dream of a fully renewable electricity grid will remain out of reach.
+
+Lithium-ion batteries currently dominate the energy storage market, accounting for over 90% of new installations globally. Their popularity stems from rapidly declining costs — the price per kilowatt-hour has fallen by approximately 90% since 2010 — and their proven reliability in everything from smartphones to electric vehicles. However, lithium-ion technology faces significant limitations at the grid scale. The batteries degrade over time, typically losing 20% of their capacity after 1,000 charge cycles. They also pose fire risks, as demonstrated by several high-profile incidents at battery storage facilities in Australia and South Korea.
+
+Pumped hydro storage remains the world's largest form of energy storage by capacity, accounting for approximately 95% of all stored energy worldwide. The concept is simple: during periods of excess electricity generation, water is pumped from a lower reservoir to an upper reservoir. When demand increases, the water is released back down through turbines to generate electricity. While highly efficient and long-lasting, pumped hydro requires specific geographical conditions — namely, two bodies of water at different elevations — that limit where it can be deployed.
+
+Several emerging technologies offer promising alternatives. Green hydrogen, produced by using renewable electricity to split water molecules through electrolysis, can be stored indefinitely and transported over long distances. Countries such as Australia, Saudi Arabia, and Germany are investing billions in green hydrogen infrastructure. However, the round-trip efficiency of hydrogen storage is currently only around 30% to 40%, compared to 85% to 95% for lithium-ion batteries.
+
+Solid-state batteries, which replace the liquid electrolyte in conventional lithium-ion cells with a solid material, are another area of intense research. Toyota, QuantumScape, and several other companies have announced plans to commercialise solid-state batteries by 2027. These batteries promise higher energy density, faster charging times, and significantly reduced fire risk.
+
+Gravity-based storage systems represent one of the most innovative approaches. The Swiss company Energy Vault has developed a system that uses excess electricity to lift massive concrete blocks to the top of a tower. When energy is needed, the blocks are lowered, driving generators that produce electricity. The company claims its systems can operate for 35 years with minimal degradation, far exceeding the lifespan of chemical batteries.
+
+The scale of the storage challenge is immense. The International Energy Agency estimates that global energy storage capacity must increase fifteenfold by 2030 to keep the world on track for net-zero emissions by 2050. Meeting this target will require not just technological innovation but also massive investment, supportive regulatory frameworks, and international cooperation on supply chains for critical minerals such as lithium, cobalt, and vanadium.`,
+      questions: [
+        { id: "r3q14", kind: "tfng", text: "Solar and wind power are now the cheapest forms of new electricity in most regions.", answer: "True", options: ["True", "False", "Not Given"], explanation: "Solar and wind are the cheapest forms of new electricity in most parts of the world." },
+        { id: "r3q15", kind: "gap", text: "Lithium-ion batteries account for over ___% of new energy storage installations globally.", answer: "90", explanation: "Lithium-ion accounts for over 90% of new installations." },
+        { id: "r3q16", kind: "mcq", text: "How much has the price per kilowatt-hour of lithium-ion batteries fallen since 2010?", answer: "Approximately 90%", options: ["50%", "70%", "Approximately 90%", "95%"], explanation: "The price has fallen by approximately 90% since 2010." },
+        { id: "r3q17", kind: "tfng", text: "Lithium-ion batteries typically lose 20% of capacity after 1,000 charge cycles.", answer: "True", options: ["True", "False", "Not Given"], explanation: "They typically lose 20% after 1,000 charge cycles." },
+        { id: "r3q18", kind: "gap", text: "Pumped hydro storage accounts for approximately ___% of all stored energy worldwide.", answer: "95", explanation: "Pumped hydro accounts for approximately 95% of stored energy." },
+        { id: "r3q19", kind: "mcq", text: "What is the main geographical limitation of pumped hydro storage?", answer: "It requires two bodies of water at different elevations", options: ["It requires flat terrain", "It requires two bodies of water at different elevations", "It requires proximity to the ocean", "It requires volcanic activity"], explanation: "It requires two bodies of water at different elevations." },
+        { id: "r3q20", kind: "tfng", text: "Green hydrogen storage has a higher round-trip efficiency than lithium-ion batteries.", answer: "False", options: ["True", "False", "Not Given"], explanation: "Hydrogen efficiency is 30-40% compared to 85-95% for lithium-ion." },
+        { id: "r3q21", kind: "gap", text: "Toyota and QuantumScape plan to commercialise solid-state batteries by ___.", answer: "2027", explanation: "Companies plan to commercialise by 2027." },
+        { id: "r3q22", kind: "mcq", text: "How does Energy Vault's gravity storage system work?", answer: "By lifting and lowering concrete blocks", options: ["By compressing air underground", "By lifting and lowering concrete blocks", "By spinning flywheels", "By heating molten salt"], explanation: "It lifts and lowers massive concrete blocks." },
+        { id: "r3q23", kind: "tfng", text: "Energy Vault claims its systems can operate for 50 years.", answer: "False", options: ["True", "False", "Not Given"], explanation: "The company claims 35 years, not 50." },
+        { id: "r3q24", kind: "gap", text: "The IEA estimates that global storage capacity must increase ___-fold by 2030.", answer: "fifteen", explanation: "Storage capacity must increase fifteenfold by 2030." },
+        { id: "r3q25", kind: "mcq", text: "Which mineral is NOT mentioned as critical for energy storage supply chains?", answer: "Copper", options: ["Lithium", "Cobalt", "Vanadium", "Copper"], explanation: "Lithium, cobalt, and vanadium are mentioned but not copper." },
+        { id: "r3q26", kind: "tfng", text: "Green hydrogen can be stored indefinitely and transported over long distances.", answer: "True", options: ["True", "False", "Not Given"], explanation: "Green hydrogen can be stored indefinitely and transported long distances." }
+      ]
+    },
+    {
+      id: "r3p3",
+      title: "The Decline of Indigenous Languages",
+      text: `Of the approximately 7,000 languages currently spoken on Earth, linguists estimate that nearly half are endangered and could disappear within the next century. The rate of language loss has accelerated dramatically in recent decades, driven by globalisation, urbanisation, and the dominance of a small number of super-languages such as English, Mandarin, Spanish, and Arabic. When a language dies, it takes with it an irreplaceable repository of cultural knowledge, ecological wisdom, and unique ways of understanding the world.
+
+The causes of language decline are complex and interconnected. In many cases, economic pressures compel indigenous communities to adopt dominant national languages in order to access education, employment, and government services. In Australia, the legacy of colonial policies that actively suppressed Aboriginal languages — including the forced removal of children from their families and the punishment of children for speaking their mother tongues in mission schools — has left fewer than 20 of the original 250 Aboriginal languages still being spoken by children today.
+
+Globalisation and digital technology have further accelerated the trend. The internet, while offering unprecedented opportunities for communication, is overwhelmingly dominated by a handful of languages. Approximately 60% of all web content is in English, despite English speakers representing only about 5% of the world's population. Young people in indigenous communities increasingly consume media, socialise, and conduct business in dominant languages, reducing the domains in which their ancestral languages are used.
+
+The consequences of language loss extend far beyond cultural heritage. Indigenous languages often encode detailed ecological knowledge accumulated over thousands of years. The Kuna people of Panama, for example, possess a sophisticated vocabulary for describing marine ecosystems that has proven invaluable to Western marine biologists studying coral reef biodiversity. Similarly, the Inuit languages contain dozens of distinct terms for different types of snow and ice, reflecting an intimate understanding of Arctic conditions that is increasingly relevant to climate change research.
+
+Efforts to reverse language decline are underway in many parts of the world. New Zealand's Maori language revitalisation programme, which began in the 1980s with the establishment of kohanga reo (language nest) preschools, is widely regarded as one of the most successful examples. Today, Maori is an official language of New Zealand, and the number of fluent speakers has stabilised after decades of decline. The Welsh language in the United Kingdom has experienced a similar revival, with the proportion of Welsh speakers in Wales rising from 18.7% in 1991 to 29.5% in 2021.
+
+Technology is playing an increasingly important role in language preservation. Mobile apps such as Duolingo now offer courses in endangered languages including Hawaiian, Navajo, and Scottish Gaelic. In Canada, the FirstVoices platform provides digital archives of indigenous languages, including audio recordings of elder speakers, interactive dictionaries, and educational games for children. Artificial intelligence and machine learning are also being employed to transcribe and translate endangered languages from historical recordings.
+
+However, linguists caution that technology alone cannot save a language. A language survives only when it is spoken daily by a community of users across multiple generations. The most effective revitalisation programmes combine formal education with community-based initiatives that create real-world contexts for language use, such as immersion schools, local media broadcasts, and cultural festivals. Without intergenerational transmission in the home and community, even the most sophisticated digital tools will prove insufficient.`,
+      questions: [
+        { id: "r3q27", kind: "gap", text: "There are approximately ___ languages currently spoken on Earth.", answer: "7,000", explanation: "There are approximately 7,000 languages spoken today." },
+        { id: "r3q28", kind: "mcq", text: "What proportion of the world's languages are estimated to be endangered?", answer: "Nearly half", options: ["About 10%", "About 25%", "Nearly half", "Over 75%"], explanation: "Nearly half of all languages are endangered." },
+        { id: "r3q29", kind: "tfng", text: "Fewer than 20 of Australia's original 250 Aboriginal languages are still spoken by children.", answer: "True", options: ["True", "False", "Not Given"], explanation: "Fewer than 20 of the original 250 are still spoken by children." },
+        { id: "r3q30", kind: "gap", text: "Approximately ___% of all web content is in English.", answer: "60", explanation: "Approximately 60% of web content is in English." },
+        { id: "r3q31", kind: "tfng", text: "English speakers represent about 20% of the world's population.", answer: "False", options: ["True", "False", "Not Given"], explanation: "English speakers represent only about 5% of the world's population." },
+        { id: "r3q32", kind: "mcq", text: "The Kuna people of Panama have contributed knowledge to which scientific field?", answer: "Marine biology", options: ["Geology", "Marine biology", "Astronomy", "Genetics"], explanation: "Their vocabulary has been invaluable to marine biologists." },
+        { id: "r3q33", kind: "tfng", text: "Inuit languages contain only a few words for snow and ice.", answer: "False", options: ["True", "False", "Not Given"], explanation: "Inuit languages contain dozens of distinct terms for snow and ice." },
+        { id: "r3q34", kind: "gap", text: "New Zealand's Maori language revitalisation programme began in the ___.", answer: "1980s", explanation: "The programme began in the 1980s." },
+        { id: "r3q35", kind: "mcq", text: "What is a kohanga reo?", answer: "A Maori language preschool", options: ["A Maori war dance", "A Maori language preschool", "A Maori religious ceremony", "A Maori fishing technique"], explanation: "Kohanga reo are language nest preschools." },
+        { id: "r3q36", kind: "tfng", text: "The proportion of Welsh speakers in Wales decreased between 1991 and 2021.", answer: "False", options: ["True", "False", "Not Given"], explanation: "The proportion rose from 18.7% to 29.5%." },
+        { id: "r3q37", kind: "gap", text: "The proportion of Welsh speakers rose to ___% in 2021.", answer: "29.5", explanation: "The proportion rose to 29.5% in 2021." },
+        { id: "r3q38", kind: "mcq", text: "Which platform provides digital archives of Canadian indigenous languages?", answer: "FirstVoices", options: ["Duolingo", "FirstVoices", "Rosetta Stone", "Babbel"], explanation: "FirstVoices provides digital archives of indigenous languages." },
+        { id: "r3q39", kind: "tfng", text: "Linguists believe that technology alone is sufficient to save endangered languages.", answer: "False", options: ["True", "False", "Not Given"], explanation: "Linguists caution that technology alone cannot save a language." },
+        { id: "r3q40", kind: "mcq", text: "According to the passage, what is the most critical factor for a language's survival?", answer: "Daily intergenerational use within a community", options: ["Government funding", "Digital archives", "Daily intergenerational use within a community", "University research"], explanation: "A language survives only when spoken daily across multiple generations." }
+      ]
+    }
+  ]
+};

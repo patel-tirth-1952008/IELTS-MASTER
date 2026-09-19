@@ -1,6 +1,6 @@
 // Seed / demo exam catalogue. Used by exam list pages and the
 // /api/exams route so the app is useful even before a database is wired.
-
+import { allExams } from "./exams/index";
 export const EXAM_TYPES = ["reading", "writing", "listening", "speaking"];
 
 export const BAND_LABELS = {
@@ -116,6 +116,7 @@ export const sampleExams = [
       "Describe a book you recently read. You should say: what the book was, who wrote it, what it was about — and explain why you enjoyed it.",
     ],
   },
+  ...allExams,
 ];
 
 export function getExamById(id) {
